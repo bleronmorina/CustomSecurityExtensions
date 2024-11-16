@@ -7,7 +7,7 @@ try
     var customDSA = new CustomDSASignature(1024);
 
     var message = "This is a test message for digital signature.";
-    var signature = customDSA.SignMessage(message, HashAlgorithmName.SHA1);
+    var signature = customDSA.SignMessage(message);
 
     Console.WriteLine($"Signature: {Convert.ToBase64String(signature)} \r\n");
 
@@ -17,7 +17,7 @@ try
     var verifier = new CustomDSASignature(1024);
     verifier.ImportPublicKey(publicKey);
 
-    var isValid = verifier.VerifyMessage(message, signature, HashAlgorithmName.SHA1);
+    var isValid = verifier.VerifyMessage(message, signature);
     Console.WriteLine($"Signature Valid: {isValid}");
 }
 catch (Exception ex)

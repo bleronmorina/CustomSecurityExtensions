@@ -12,7 +12,7 @@ namespace CustomSecurityExtensions
             _dsa = new DSACryptoServiceProvider(keySize);
         }
 
-        public byte[] SignMessage(string message, HashAlgorithmName hashAlgorithm)
+        public byte[] SignMessage(string message)
         {
             if (string.IsNullOrEmpty(message))
                 throw new ArgumentException("Message cannot be null or empty.");
@@ -22,7 +22,7 @@ namespace CustomSecurityExtensions
 
             return _dsa.SignHash(hash, null);
         }
-        public bool VerifyMessage(string message, byte[] signature, HashAlgorithmName hashAlgorithm)
+        public bool VerifyMessage(string message, byte[] signature)
         {
             if (string.IsNullOrEmpty(message) || signature == null)
                 throw new ArgumentException("Message and signature cannot be null or empty.");
