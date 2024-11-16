@@ -51,7 +51,32 @@ namespace CustomSecurityExtensions
     {
         static void Main(string[] args)
         {
-           
+            try
+            {
+                // Create a new instance of CustomDSASignature
+                var customDSA = new CustomDSASignature(1024);
+
+                // Sign a message
+                string message = "This is a test message for digital signature.";
+                byte[] signature = customDSA.SignMessage(message, HashAlgorithmName.SHA1);
+
+                Console.WriteLine($"Signature: {Convert.ToBase64String(signature)} \r\n");
+
+                // Export the public key
+                string publicKey = customDSA.ExportPublicKey();
+                Console.WriteLine($"Public Key: {publicKey} \r\n");
+
+                // Verify the signature with a new instance (using the public key)
+                var verifier = new CustomDSASignature(1024);
+                verifier.ImportPublicKey(publicKey);
+
+                bool isValid = verifier.VerifyMessage(message, signature, HashAlgorithmName.SHA1);
+                Console.WriteLine("Signature Valid: " + isValid);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
     }
 }
