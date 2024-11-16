@@ -1,0 +1,16 @@
+# Build output
+bin/
+obj/
+
+# VS Code settings
+.vscode/
+
+# User-specific files
+*.user
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Environment variables
+.env
