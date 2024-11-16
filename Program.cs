@@ -18,8 +18,8 @@ namespace CustomSecurityExtensions
             if (string.IsNullOrEmpty(message))
                 throw new ArgumentException("Message cannot be null or empty.");
 
-            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
-            byte[] hash = SHA1.Create().ComputeHash(messageBytes);
+            var messageBytes = Encoding.UTF8.GetBytes(message);
+            var hash = SHA1.Create().ComputeHash(messageBytes);
 
             return _dsa.SignHash(hash, null); 
         }
@@ -28,8 +28,8 @@ namespace CustomSecurityExtensions
             if (string.IsNullOrEmpty(message) || signature == null)
                 throw new ArgumentException("Message and signature cannot be null or empty.");
 
-            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
-            byte[] hash = SHA1.Create().ComputeHash(messageBytes);
+            var messageBytes = Encoding.UTF8.GetBytes(message);
+            var hash = SHA1.HashData(messageBytes);
 
             return _dsa.VerifyHash(hash, null, signature);
         }
@@ -41,7 +41,7 @@ namespace CustomSecurityExtensions
 
         public void ImportPublicKey(string base64Key)
         {
-            byte[] keyBytes = Convert.FromBase64String(base64Key);
+            var keyBytes = Convert.FromBase64String(base64Key);
             _dsa.ImportCspBlob(keyBytes);
         }
 
@@ -53,25 +53,21 @@ namespace CustomSecurityExtensions
         {
             try
             {
-                // Create a new instance of CustomDSASignature
                 var customDSA = new CustomDSASignature(1024);
 
-                // Sign a message
-                string message = "This is a test message for digital signature.";
-                byte[] signature = customDSA.SignMessage(message, HashAlgorithmName.SHA1);
+                var message = "This is a test message for digital signature.";
+                var signature = customDSA.SignMessage(message, HashAlgorithmName.SHA1);
 
                 Console.WriteLine($"Signature: {Convert.ToBase64String(signature)} \r\n");
 
-                // Export the public key
-                string publicKey = customDSA.ExportPublicKey();
+                var publicKey = customDSA.ExportPublicKey();
                 Console.WriteLine($"Public Key: {publicKey} \r\n");
 
-                // Verify the signature with a new instance (using the public key)
                 var verifier = new CustomDSASignature(1024);
                 verifier.ImportPublicKey(publicKey);
 
-                bool isValid = verifier.VerifyMessage(message, signature, HashAlgorithmName.SHA1);
-                Console.WriteLine("Signature Valid: " + isValid);
+                var isValid = verifier.VerifyMessage(message, signature, HashAlgorithmName.SHA1);
+                Console.WriteLine($"Signature Valid: {isValid}");
             }
             catch (Exception ex)
             {
