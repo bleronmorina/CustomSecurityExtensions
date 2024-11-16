@@ -1,78 +1,26 @@
-﻿using System;
+﻿using CustomSecurityExtensions;
 using System.Security.Cryptography;
-using System.Text;
 
-namespace CustomSecurityExtensions
+
+try
 {
-    public class CustomDSASignature
-    {
-        private readonly DSACryptoServiceProvider _dsa;
+    var customDSA = new CustomDSASignature(1024);
 
-        public CustomDSASignature(int keySize)
-        {
-            _dsa = new DSACryptoServiceProvider(keySize);
-        }
+    var message = "This is a test message for digital signature.";
+    var signature = customDSA.SignMessage(message, HashAlgorithmName.SHA1);
 
-        public byte[] SignMessage(string message, HashAlgorithmName hashAlgorithm)
-        {
-            if (string.IsNullOrEmpty(message))
-                throw new ArgumentException("Message cannot be null or empty.");
+    Console.WriteLine($"Signature: {Convert.ToBase64String(signature)} \r\n");
 
-            var messageBytes = Encoding.UTF8.GetBytes(message);
-            var hash = SHA1.Create().ComputeHash(messageBytes);
+    var publicKey = customDSA.ExportPublicKey();
+    Console.WriteLine($"Public Key: {publicKey} \r\n");
 
-            return _dsa.SignHash(hash, null); 
-        }
-        public bool VerifyMessage(string message, byte[] signature, HashAlgorithmName hashAlgorithm)
-        {
-            if (string.IsNullOrEmpty(message) || signature == null)
-                throw new ArgumentException("Message and signature cannot be null or empty.");
+    var verifier = new CustomDSASignature(1024);
+    verifier.ImportPublicKey(publicKey);
 
-            var messageBytes = Encoding.UTF8.GetBytes(message);
-            var hash = SHA1.HashData(messageBytes);
-
-            return _dsa.VerifyHash(hash, null, signature);
-        }
-
-        public string ExportPublicKey()
-        {
-            return Convert.ToBase64String(_dsa.ExportCspBlob(false));
-        }
-
-        public void ImportPublicKey(string base64Key)
-        {
-            var keyBytes = Convert.FromBase64String(base64Key);
-            _dsa.ImportCspBlob(keyBytes);
-        }
-
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            try
-            {
-                var customDSA = new CustomDSASignature(1024);
-
-                var message = "This is a test message for digital signature.";
-                var signature = customDSA.SignMessage(message, HashAlgorithmName.SHA1);
-
-                Console.WriteLine($"Signature: {Convert.ToBase64String(signature)} \r\n");
-
-                var publicKey = customDSA.ExportPublicKey();
-                Console.WriteLine($"Public Key: {publicKey} \r\n");
-
-                var verifier = new CustomDSASignature(1024);
-                verifier.ImportPublicKey(publicKey);
-
-                var isValid = verifier.VerifyMessage(message, signature, HashAlgorithmName.SHA1);
-                Console.WriteLine($"Signature Valid: {isValid}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-        }
-    }
+    var isValid = verifier.VerifyMessage(message, signature, HashAlgorithmName.SHA1);
+    Console.WriteLine($"Signature Valid: {isValid}");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
 }
