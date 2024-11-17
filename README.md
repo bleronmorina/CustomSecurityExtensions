@@ -15,7 +15,7 @@ Course: **Information Security**
 - **Blerim Rexha**
 - **Mergim Hoti**
 
-## Students who worked on the Project (Group 2)
+## Project Team Members (Group 2)
 
 - **Argjend Zekaj**
 - **Bleron Morina**
