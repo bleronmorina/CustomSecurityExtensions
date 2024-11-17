@@ -1,24 +1,57 @@
-# Custom Security Extensions
+# Extension of .NET Framework Classes to Support DSA for Digital Signatures
+
+## Introductory Information
+
+<img src="https://github.com/user-attachments/assets/9002855f-3f97-4b41-a180-85d1e24ad34a" alt="University Logo" width="150" align="right"/>
+
+**University of Prishtina**  
+**Faculty of Computer and Software Engineering**  
+Master’s Program in **Computer and Software Engineering**  
+Course: **Information Security**  
+
+
+## Course Professors
+
+- **Blerim Rexha**
+- **Mergim Hoti**
+
+## Students who worked on the Project (Group 2)
+
+- **Argjend Zekaj**
+- **Bleron Morina**
+- **Endrit Gjoka**
+
 ## Overview
-This project provides a graphical user interface for generating and verifying Digital Signature Algorithm (DSA) signatures for messages or files. It leverages the CustomDSASignature class to create, sign, and verify messages using DSA cryptographic functions.
 
-## Professors
-- Blerim Rexha
-- Mergim Hoti
-
-## Students
-- Argjend Zekaj
-- Bleron Morina
-- Endrit Gjoka
+The **Custom Security Extensions** project provides a graphical user interface (GUI) for generating and verifying Digital Signature Algorithm (DSA) signatures. It enables users to sign messages or files securely, leveraging the **CustomDSASignature** class for cryptographic operations, including the creation, signing, and verification of digital signatures.
 
 ## Prerequisites
+
+To run this project, ensure the following are installed:
 - .NET Framework 4.x or .NET Core (as applicable)
 - Visual Studio or any C# IDE
 - Windows Forms dependencies
 
+## Features
+
+- **Signing Messages**:  
+  - Enter a text message in the input field or select a file to read the content from.  
+  - Click the **Sign** button to generate a digital signature.  
+  - The generated signature will appear in the signature text box.
+
+- **Verifying Messages**:  
+  - Provide a text message or select a file whose content needs to be verified.  
+  - Paste or enter the previously generated signature in the appropriate field.  
+  - Click the **Verify** button to validate the signature.
+
 ## Usage
-- Signing Messages: Enter a text message in the text input field or select a file to read content from. Click on the Sign button to generate a digital signature. The signature will be displayed in the signature text box.
-- Verifying Messages: Provide a text message or select a file whose contents you want to verify. Paste or enter a previously generated signature. Click the Verify button to check if the signature is valid.
 
+1. **Generate a Digital Signature**  
+   - Input or upload the message/file you want to sign.
+   - Press the **Sign** button.
+   - The signature will be displayed in the text box for further use or verification.
 
-![image](https://github.com/user-attachments/assets/a70b5e4c-0200-4a77-8ee8-aafc30793cfc)
+2. **Verify a Digital Signature**  
+   - Input or upload the message/file whose signature you want to verify.
+   - Paste the corresponding signature.
+   - Press the **Verify** button to check if the signature matches the content.
